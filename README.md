@@ -5,6 +5,11 @@
 ./create.sh <virtual environment name>
 ```
 
+## List
+```bash
+./list.sh
+```
+
 ## Activate
 ```bash
 source env.sh <virtual environment name>

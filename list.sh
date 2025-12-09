@@ -2,13 +2,14 @@
 
 VENV_DIR="${1:-.venv}"
 
-ls -l "$VENV_DIR" | awk '
-BEGIN {
-    # Header
-    printf "%-30s %-20s\n", "ENV NAME", "LAST MODIFIED";
-    print  "------------------------------ --------------------";
-}
-NR > 1 {
-    # Skip the "total" line and format the rest
-    printf "%-30s %-20s\n", $9, $6 " " $7 " " $8;
-}'
+printf "%-30s %-20s\n" "ENV NAME" "LAST MODIFIED"
+printf "%s\n" "------------------------------ --------------------"
+
+for f in "$VENV_DIR"/*; do
+    [ -e "$f" ] || continue
+    name=$(basename "$f")
+    # %Sm = formatted modification time with locale; adjust as needed
+    mtime=$(stat -f "%Sm" "$f")
+    printf "%-30s %-20s\n" "$name" "$mtime"
+done
+
